@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content-heading %}Error{% endblock %}
+
+{% block content %}
+    {% for message in messages %}
+        <h3 class="text-danger">{{message}}</h3>
+    {% endfor %}
+{% endblock %}

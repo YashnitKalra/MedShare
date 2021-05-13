@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block bar-content %}
+<a href="/" class="text-light border-left px-2">Home</a>
+<span class="px-2 border-left">Hello <a href="profile" class="text-light font-weight-bold">{{request.session.username}}</a></span>
+<a href="/logout" class="text-light border-left border-right px-2">Logout</a>
+{% endblock %}
+
+{% block content-heading %}Requests{% endblock %}
+
+{% block content %}
+    <!-- Nav Links -->
+    <ul class="nav nav-tabs bg-dark mt-4">
+        <li class="nav-item w-50 text-center">
+            <a class="nav-link active" href="#receivedRequests" data-toggle="tab">Received</a>
+        </li>
+        <li class="nav-item w-50 text-center">
+            <a class="nav-link" href="#sentRequests" data-toggle="tab">Sent</a>
+        </li>
+    </ul>
+    {% csrf_token %}
+    <!-- Tab Content -->
+    <div class="tab-content bg-transparent-light">
+        <!-- Received Requests -->
+        <div class="container-fluid tab-pane active" id="receivedRequests">
+            <div class="scrollable-x">
+                <table class="table table-hover text-center">
+                    <thead>
+                        <tr>
+                            <th>Name</th><th>Quantity</th><th>Requested By</th><th>Expires in (days)</th><th>Date</th><th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for req in received %}
+                            <tr>
+                                <td>{{req.2}}</td><td>{{req.4}}</td><td>{{req.1}}</td><td>{{req.3}}</td><td>{{req.5}}</td>
+                                <td>
+                                    {% if req.6 == "Pending" %}
+                                        <button class="btn btn-sm btn-outline-success acceptRequestButton" id="accept_{{req.0}}">Accept</button>
+                                        <button class="btn btn-sm btn-outline-danger rejectRequestButton" id="reject_{{req.0}}">Reject</button>
+                                    {% elif req.6 == "Accepted" %}
+                                        <button class="btn btn-sm btn-outline-info confirmRequestButton" id="confirm_{{req.0}}">Confirm Exchange</button>
+                                    {% elif req.6 == "Rejected" %}
+                                        <span class="text-danger">REJECTED</span>
+                                    {% elif req.6 == "Unsuccessful" %}
+                                        <span class="text-danger font-weight-bold">UNSUCCESSFUL</span>
+                                    {% elif req.6 == "Successful" %}
+                                        <span class="text-success font-weight-bold">SUCCESSFUL</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Sent Requests -->
+        <div class="container-fluid tab-pane" id="sentRequests">
+            <div class="scrollable-x">
+                <table class="table table-hover text-center">
+                    <thead>
+                        <tr>
+                            <th>Name</th><th>Quantity</th><th>Expires in (days)</th><th>Date</th><th>Status</th><th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for req in sent %}
+                            <tr>
+                                <td>{{req.1}}</td><td>{{req.3}}</td><td>{{req.2}}</td><td>{{req.5}}</td>
+                                {% if req.4 == "Pending" %}
+                                    <td class="text-info">{{req.4}}</td>
+                                    <td><button class="btn btn-sm btn-outline-info withdrawRequestButton" id="withdraw_{{req.0}}">Withdraw</button></td>
+                                {% elif req.4 == "Accepted" %}
+                                    <td class="text-success" id="status_{{req.0}}">{{req.4}}</td>
+                                    <td><button class="btn btn-sm btn-outline-danger cancelRequestButton" id="cancel_{{req.0}}">Cancel</button></td>
+                                {% elif req.4 == "Rejected" %}
+                                    <td class="text-danger">{{req.4}}</td>
+                                    <td>-</td>
+                                {% elif req.4 == "Unsuccessful" %}
+                                    <td class="text-danger font-wight-bold">{{req.4}}</td>
+                                    <td>-</td>
+                                {% elif req.4 == "Successful" %}
+                                    <td class="text-success font-wight-bold">{{req.4}}</td>
+                                    <td>-</td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Exchange Confirm Modal -->
+    <div class="modal fade" id="exchangeModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h3 class="modal-title text-light">Exchange Verfication</h3>
+                    <button type="button" class="close text-light" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <label>Enter OTP sent to Receiver's E-Mail</label>
+                    <input type="text" placeholder="Enter OTP" class="form-control" id="otp">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" id="submitOtpButton">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'requests.js' %}"></script>
+{% endblock %}

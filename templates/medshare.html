@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content-heading %}Login{% endblock %}
+
+{% block content %}
+    <form action="/" method="POST">
+        {% csrf_token %}
+        <div class="input-group mb-4 mt-5">
+            <div class="input-group-prepend"><span class="input-group-text text-info"><i class="fas fa-user"></i></span></div>
+            <input type="text" class="form-control" placeholder="Username" name="username" required>
+        </div>
+        <div class="input-group mb-2">
+            <div class="input-group-prepend"><span class="input-group-text text-info"><i class="fas fa-lock"></i></span></div>
+            <input type="password" class="form-control" placeholder="Password" name="password" required>
+        </div>
+        <div class="mb-4"><a href="/forgotPassword" class="text-dark">Forgot Password?</a></div>
+        <button type="submit" class="btn btn-success w-100 mb-4">Submit</button>
+        <div class="bg-transparent-light container-fluid p-2 text-center">Don't have an account? <a href="/signup">Sign Up</a></div>
+    </form>
+{% endblock %}

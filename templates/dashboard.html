@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block bar-content %}
+<div class="dropdown d-inline border-left pl-2">
+    <button type="button" class="btn dropdown-toggle p-0 m-0 text-light" data-toggle="dropdown">Donations</button>
+    <div class="dropdown-menu">
+        <a href="#donateModal" data-target="#donateModal" data-toggle="modal" class="dropdown-item">Donate</a>
+        <a href="myDonations" class="dropdown-item">My Donations</a>
+    </div>
+</div>
+<a href="requests" class="text-light border-left pl-2">Requests</a>
+<span class="px-2 border-left">Hello <a href="profile" class="text-light font-weight-bold">{{request.session.username}}</a></span>
+<a href="/logout" class="text-light border-left border-right px-2">Logout</a>
+{% endblock %}
+
+{% block content-heading %}Welcome{% endblock %}
+
+{% block content %}
+    <div class="mt-3 p-2 bg-transparent-light text-center font-sm-responsive">
+        <span class="font-weight-bold">Your Location:</span> <span class="font-italic">{{area}}</span><br>
+        <span class="font-italic">Requests Remaining:</span> <span class="font-weight-bold" id="count">{{count}}</span>
+    </div>
+    <div class="row input-group mx-0 mt-3">
+        <input type="text" class="form-control" placeholder="Search..." id="searchProductName">
+        <select class="custom-select" id="sortBy">
+            <option value="0">Sort by Distance</option>
+            <option value="1">Sort by Expiry Date</option>
+        </select>
+        <div class="input-group-append"><button type="button" class="input-group-text" id="searchProductButton"><span class="fas fa-search"></span></button></div>
+    </div>
+    <div id="products" class="mt-4 container-fluid"></div>
+
+    <!-- Donate Modal -->
+    <div class="modal fade" id="donateModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h3 class="modal-title text-light">Donate</h3>
+                    <button type="button" class="close text-light" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    {% csrf_token %}
+                    <label><span class="text-danger">*</span>Product Name:</label>
+                    <input type="text" class="form-control mb-3" id="productName">
+                    <label>Description:</label>
+                    <textarea class="form-control mb-3" rows="3" id="description"></textarea>
+                    <label><span class="text-danger">*</span>Quantity:</label>
+                    <input type="number" class="form-control mb-3" id="productQuantity" value=1 min=1>
+                    <label><span class="text-danger">*</span>Date of Expiration</label>
+                    <input type="date" class="form-control mb-3" id="expiryDate">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" id="donateButton">Donate</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'dashboard.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block bar-content %}
+<a href="/" class="text-light border-left px-2">Home</a>
+<span class="px-2 border-left">Hello <a href="profile" class="text-light font-weight-bold">{{request.session.username}}</a></span>
+<a href="/logout" class="text-light border-left border-right px-2">Logout</a>
+{% endblock %}
+
+{% block content-heading %}My Donations{% endblock %}
+
+{% block content %}
+    {% for donation_id,value in donations.items %}
+        <div>{{donation_id}}:{{value}}</div>
+    {% endfor %}
+{% endblock %}

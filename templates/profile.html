@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block bar-content %}
+<a href="/" class="text-light border-left px-2">Home</a>
+<a href="/logout" class="text-light border-left border-right px-2">Logout</a>
+{% endblock %}
+
+{% block content-heading %}Profile{% endblock %}
+
+{% block content %}
+    <div class="mt-3 py-2 bg-transparent-light">
+        <div class="container-fluid row mx-0 text-center my-4">
+            <div class="col-sm-6 font-weight-bold">Name:</div>
+            <div class="col-sm-6">{{name}}</div>
+        </div>
+        <div class="container-fluid row mx-0 text-center my-4">
+            <div class="col-sm-6 font-weight-bold">Username:</div>
+            <div class="col-sm-6">{{username}}</div>
+        </div>
+        <div class="container-fluid row mx-0 text-center my-4">
+            <div class="col-sm-6 font-weight-bold">Email:</div>
+            <div class="col-sm-6">{{email}}</div>
+        </div>
+        <div class="container-fluid row mx-0 text-center my-4">
+            <div class="col-sm-6 font-weight-bold">Area:</div>
+            <div class="col-sm-6">{{area}}</div>
+        </div>
+        <div class="container-fluid row mx-0 text-center my-4">
+            <div class="col-sm-6 font-weight-bold">Successful Donations:</div>
+            <div class="col-sm-6">{{successful_donations}}</div>
+        </div>
+        <div class="container-fluid row mx-0 text-center my-4">
+            <div class="col-sm-6 font-weight-bold">Doantions Received:</div>
+            <div class="col-sm-6">{{donations_received}}</div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedShare</title>
+    <link rel="shortcut icon" href="{% static 'logo.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'index.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+</head>
+<body class="d-flex flex-column">
+    <div class="container-fluid bg-info text-light p-4 d-flex flex-column" id="header">
+        <a href="/">
+            <img width="75vw" height="auto" src="{% static 'logo.png' %}">
+            <h1 class="heading text-light">MedShare</h1>
+        </a>
+        <div class="align-self-end ml-auto mt-2">{% block bar-content %}{% endblock %}</div>
+    </div>
+    <div class="mx-auto p-2 mt-4 flex-fill" id="content-div">
+        <div class="container-fluid border-bottom border-dark text-center mt-3 heading d-block">
+            <h2>{% block content-heading %}{% endblock %}</h2>
+        </div>
+        {% block content %}{% endblock %}
+    </div>
+    <div class="container-fluid bg-info text-light mt-4 py-3 px-4" id="footer">
+        <ul class="list-group list-group-horizontal d-flex justify-content-end">
+            <li class="list-group-item"><a href="#">About Us</a></li>
+            <li class="list-group-item"><a href="#">Privacy Policy</a></li>
+            <li class="list-group-item"><a href="contactUs">Contact Us</a></li>
+        </ul>
+    </div>
+</body>
+</html>
+{% block scripts %}{% endblock %}

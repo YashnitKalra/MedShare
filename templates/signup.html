@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content-heading %}Sign Up{% endblock %}
+
+{% block content %}
+    <form method="POST" action="signup" class="container-fluid" onsubmit="return verifyDetails()" id="registrationForm">
+        {% csrf_token %}
+        <div class="row input-group mx-0 mb-4 mt-5">
+            <div class="col-sm-2 input-group-prepend p-0"><div class="input-group-text bg-dark text-light w-100">Name</div></div>
+            <input type="text" class="form-control col" name="firstname" placeholder="Firstname" pattern="[a-zA-Z\s]{3,}" required>
+            <input type="text" class="form-control col" name="lastname" placeholder="Lastname" pattern="[a-zA-Z\s]{3,}" required>
+        </div>
+        <div class="row input-group mx-0 my-4">
+            <div class="col-sm-2 input-group-prepend p-0"><div class="input-group-text bg-dark text-light w-100">Username</div></div>
+            <input type="text" class="form-control col-sm-8" name="username" pattern="[a-zA-Z][^\s]{2,}" id="username" required>
+            <button type="button" class="col-sm-2 btn btn-success rounded-0" id="verifyUsernameButton">Verify</button>
+        </div>
+        <div class="row input-group mx-0 my-4">
+            <div class="col-sm-2 input-group-prepend p-0"><div class="input-group-text bg-dark text-light w-100">Email</div></div>
+            <input type="email" class="form-control col-sm-8" name="email" id="email1" readonly="readonly" required>
+            <button type="button" class="col-sm-2 btn btn-success rounded-0" id="enterEmailButton">Enter Email</button>
+        </div>
+        <div class="row input-group mx-0 my-4">
+            <div class="col-sm-2 input-group-prepend p-0"><div class="input-group-text bg-dark text-light w-100">Password</div></div>
+            <input type="password" class="form-control col-sm-5" name="password1" pattern="[^\s]{6,}" id="password1" required>
+            <input type="password" class="form-control col-sm-5" name="password2" placeholder="Confirm Password" id="password2" required>
+        </div>
+        <div class="row input-group mx-0 my-4">
+            <div class="col-sm-2 input-group-prepend p-0"><div class="input-group-text bg-dark text-light w-100">Area</div></div>
+            <input type="text" class="form-control col-sm-8" name="area" id="area" required>
+            <button type="button" class="col-sm-2 btn btn-success rounded-0" id="findAreaButton">Verify</button>
+        </div>
+        <input type="hidden" name="area2" id="area2">
+        <input type="hidden" name="lat" id="lat">
+        <input type="hidden" name="lon" id="lon">
+        <button type="submit" class="btn btn-success w-100 mt-2 mb-5">Submit</button>
+    </form>
+
+    <!-- Email Verifier Modal -->
+    <div class="modal fade" id="emailModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h3 class="modal-title text-light">Email Verification</h3>
+                    <button type="button" class="close text-light" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <input type="email" placeholder="Email" id="email2" class="form-control mb-2">
+                    <button type="button" id="sendOtpButton" class="btn btn-sm btn-info mb-4">Send OTP</button>
+                    <input type="text" placeholder="Enter OTP" id="otp" class="form-control mb-2 d-none">
+                    <button type="button" id="otpVerifyButton" class="btn btn-sm btn-info d-none">Verify</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Area Lists Modal -->
+    <div class="modal fade" id="areas">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h3 class="modal-title text-light">Select Area</h3>
+                    <button type="button" class="close text-light" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" id="areasList"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'signup.js' %}"></script>
+{% endblock %}
